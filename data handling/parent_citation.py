@@ -2,15 +2,16 @@ import pandas as pd
 import numpy as np
 import json
 from tqdm import tqdm
-
+from collections import defaultdict
 
 path = 'uspatentcitation.tsv'
 patent_dict = dict()
 rows = 0
 i = 0
-obs = 10000
+obs = 100000
 
-pbar = tqdm(total = obs+1)
+
+pbar = tqdm(total = obs)
 
 while rows <= obs: # 103835095
     i += 1
@@ -19,7 +20,7 @@ while rows <= obs: # 103835095
     df_chunk = pd.read_csv(
         filepath_or_buffer = path,
         sep = '\t',
-        usecols = ['patent_id', 'citation_id', 'date'],
+        usecols = ['patent_id', 'citation_id'],
         nrows = rows,
         infer_datetime_format = True
     )
@@ -48,4 +49,3 @@ while rows <= obs: # 103835095
     pbar.update(1000)
 
 pbar.close()
-print(patent_dict)
