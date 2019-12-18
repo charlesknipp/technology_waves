@@ -3,6 +3,10 @@ import pandas as pd
 import pickle
 import sys
 
+# depreciated and replaced by parent_citation.py
+# memory error is inevitable when processing in chunks
+# pickle does not backup every 100000 observations
+
 # read the csv as a pandas dataframe by limiting the columns used
 
 data_chunk = pd.read_csv(
