@@ -14,16 +14,26 @@ for i in tqdm(range(1,11)):
 
     skipped = obs * i
 
-    df_chunk = pd.read_csv(
-        filepath_or_buffer = 'uspatentcitation.tsv',
-        sep = '\t',
-        header = None,
-        names = head,
-        usecols = ['patent_id','citation_id','date'],
-        skiprows = skipped,
-        nrows = obs,
-        infer_datetime_format = True
-    )
+    if i == 0:
+        df_chunk = pd.read_csv(
+            filepath_or_buffer = 'uspatentcitation.tsv',
+            sep = '\t',
+            usecols = ['patent_id','citation_id','date'],
+            nrows = obs,
+            infer_datetime_format = True
+        )
+
+    else:
+        df_chunk = pd.read_csv(
+            filepath_or_buffer = 'uspatentcitation.tsv',
+            sep = '\t',
+            header = None,
+            names = head,
+            usecols = ['patent_id','citation_id','date'],
+            skiprows = skipped,
+            nrows = obs,
+            infer_datetime_format = True
+        )
 
     df = df_chunk.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
     path = 'chunks/data%d.csv' % i

@@ -1,14 +1,22 @@
 import pandas as pd
-import networkx as nx
 import matplotlib.pyplot as plt
+from collections import defaultdict
+from tqdm import tqdm
 
-
-path = 'chunks/data1.csv'
 
 df = pd.read_csv(
-    filepath_or_buffer = path,
+    filepath_or_buffer = 'chunks/data0.csv',
     usecols = ['patent_id','citation_id']
 )
+
+for i in tqdm(range(1,11)):
+    path = 'chunks/data%d.csv' % i
+    df_c = pd.read_csv(
+        filepath_or_buffer = path,
+        usecols = ['patent_id','citation_id']
+    )
+
+    df = pd.concat([df_c, df])
 
 # group by citation to show the most cited patents
 df1 = df.groupby(['citation_id']).count()
